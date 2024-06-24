@@ -33,3 +33,5 @@ console.log(Emirates.bookings);
 const EMbook = book.bind(Emirates);
 EMbook("Nazir", 8242);
 console.log(Emirates.bookings);
+
+//you can also bind object with DOM elements so *this donot adapt the environment of DOM element. It adapt the this for the objects
