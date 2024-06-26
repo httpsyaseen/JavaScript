@@ -13,3 +13,21 @@ console.log(abdullah.skills);
 console.log(yaseen.skills === abdullah.skills);
 
 console.log(yaseen.__proto__ === Person.prototype);
+console.log(yaseen.__proto__ === abdullah.__proto__);
+
+Person.__proto__.degree = "CS";
+
+console.log(Person.degree);
+console.log(Person.__proto__);
+console.log(Object.prototype);
+console.log(Person.__proto__.__proto__);
+
+console.log(Person.prototype.constructor);
+
+const arr = [1, 2, 3, 4, 5];
+
+console.log(arr.__proto__);
+
+console.log(arr.__proto__ === Array.prototype);
+console.log(yaseen instanceof Person);
+console.log(arr instanceof Array);
