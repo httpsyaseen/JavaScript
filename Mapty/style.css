@@ -29,7 +29,6 @@ body {
   overscroll-behavior-y: none;
 
   background-color: #fff;
-  padding: 2.5rem;
 
   display: flex;
 }
@@ -194,6 +193,7 @@ a:visited {
   flex: 1;
   height: 100%;
   background-color: var(--color-light--1);
+  position: relative;
 }
 
 /* Popup width is defined in JS using options */
@@ -217,4 +217,20 @@ a:visited {
 }
 .cycling-popup .leaflet-popup-content-wrapper {
   border-left: 5px solid var(--color-brand--1);
+}
+
+.reset {
+  position: absolute;
+  top: 22px; /* Adjust this value as needed */
+  right: 22px; /* Adjust this value as needed */
+  padding: 10px 20px;
+  background-color: var(--color-brand--2); /* Match the brand color */
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  z-index: 1000; /* Ensure the button is on top of the map */
+  font-weight: bold;
+  font-size: 14px;
+  font-family: inherit;
 }

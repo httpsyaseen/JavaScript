@@ -10,10 +10,11 @@ const inputDistance = document.querySelector(".form__input--distance");
 const inputDuration = document.querySelector(".form__input--duration");
 const inputCadence = document.querySelector(".form__input--cadence");
 const inputElevation = document.querySelector(".form__input--elevation");
+const resetButton = document.querySelector(".reset");
 
 class Workout {
   date = new Date();
-  id = (Date.now() + "").slice(-8);
+  id = Math.random().toString(36).substr(2, 9);
   type;
   clicks = 0;
   constructor(coords, distance, duration, type) {
@@ -60,10 +61,12 @@ class App {
   #workouts = [];
 
   constructor() {
+    this._getLocalStorage();
     this._getGeoLocation();
     form.addEventListener("submit", this._newWorkOut.bind(this));
     inputType.addEventListener("change", this._toogleElevationField);
     containerWorkouts.addEventListener("click", this._moveToMarker.bind(this));
+    resetButton.addEventListener("click", this.resetLocalStorage);
   }
 
   _getGeoLocation() {
@@ -81,6 +84,11 @@ class App {
         '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(this.#map);
     this.#map.on("click", this._showForm.bind(this));
+    console.log(this.#workouts);
+    this.#workouts.forEach((work) => {
+      this._renderPopupMarker(work);
+      this._renderWorkout(work);
+    });
   }
 
   _newWorkOut(e) {
@@ -124,6 +132,7 @@ class App {
     this.#workouts.push(workout);
     this._hideForm();
     this._renderWorkout(workout);
+    this._setLocalStorage();
   }
 
   _showForm(mapE) {
@@ -230,6 +239,40 @@ class App {
         animate: true,
       },
     });
+  }
+  _setLocalStorage() {
+    localStorage.setItem("workouts", JSON.stringify(this.#workouts));
+  }
+
+  _getLocalStorage() {
+    const data = JSON.parse(localStorage.getItem("workouts"));
+    if (!data) return;
+
+    data.forEach((work) => {
+      if (work.type === "running") {
+        const workout = new Running(
+          work.coords,
+          work.distance,
+          work.duration,
+          work.candence
+        );
+        this.#workouts.push(workout);
+      }
+      if (work.type === "cycling") {
+        const workout = new Cycling(
+          work.coords,
+          work.distance,
+          work.duration,
+          work.elevationGain
+        );
+        this.#workouts.push(workout);
+      }
+    });
+  }
+
+  resetLocalStorage() {
+    localStorage.clear();
+    location.reload();
   }
 }
 
